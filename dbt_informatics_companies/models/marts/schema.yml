@@ -1,0 +1,6 @@
+sources:
+  - name: codes_nafs
+    database: annual_french_informatics_companies  
+    schema: public
+    tables:
+      - name: code_naf

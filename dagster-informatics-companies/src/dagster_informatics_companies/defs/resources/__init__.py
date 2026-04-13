@@ -1,6 +1,8 @@
 import psycopg2
 from dagster import ConfigurableResource
 from contextlib import contextmanager
+from dagster_dbt import DbtCliResource
+from ..projects import dbt_project
 
 # Définir la ressource pour postgresql (classe recommandée)
 # https://docs.dagster.io/guides/build/external-resources/defining-resources
@@ -34,3 +36,8 @@ class PostgresResource(ConfigurableResource):
             yield conn
         finally:
             conn.close()
+
+# Pour la ressource dbt
+dbt_resource = DbtCliResource(
+    project_dir=dbt_project,
+)

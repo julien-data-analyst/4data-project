@@ -14,10 +14,17 @@ from io import StringIO
 ####################-
 # Partie Extract
 ####################-
-@asset
+@asset(
+    group_name="naf_codes",
+    kinds={"python"},
+)
 def get_naf_codes(context):
     """
+    Extraction des codes nafs du fichier xls de l'INSEE
 
+    :params context: contexte de dagster pour pouvoir enregisrer des logs
+
+    :return: fichier xls stockant les codes nafs et leurs intitulés
     """
     
     context.log.info("Début du téléchargement des codes NAF")
@@ -34,19 +41,25 @@ def get_naf_codes(context):
 
 
 @asset(
-        deps=["get_naf_codes"]
+        deps=["get_naf_codes"],
+        group_name="naf_codes",
+        kinds={"python"},
 )
 def clean_naf_codes(context):
     """
+    nettoyage des données des codes nafs
 
+    :params context: contexte de dagster pour pouvoir enregisrer des logs
+
+    :return: fichier csv nettoyé des codes nafs avec leurs intitulés, les classes et sections
     """
     
     context.log.info("Début du nettoyage des codes NAFs")
 
-    # Lire le fichier avec Pandas
+    # Read the excel file with the raw path
     excel_data = pd.read_excel(CODE_NAF_RAW_PATH)
 
-    # Préparer les données
+    # Filter the lines with null values on "Code" colup
     excel_data_non_nulles = excel_data[~excel_data["Code"].isna()]
     excel_data_non_nulles.drop(excel_data_non_nulles.columns[3:5], axis=1, inplace=True)
 
@@ -66,7 +79,7 @@ def clean_naf_codes(context):
             liste_dataframes_values.append([lines[1].strip(), lines[2].strip(), section_act])
 
 
-    # Obtenir les sous-classes
+    # Obtain the subclasses
     context.log.info("Préparation des sous-classes et joindre les classes et sections avec")
     subclass_naf = excel_data_non_nulles[excel_data_non_nulles["Code"].str.contains("\.")]
     subclass_naf.columns = ["excel_line", "subclasses_codes", "subclasses_title"]
@@ -110,17 +123,25 @@ def clean_naf_codes(context):
 # Partie Load
 ####################-
 @asset(
-        deps=["clean_naf_codes"]
+    deps=["clean_naf_codes"],
+    group_name="naf_codes",
+    kinds={"Postgres"},
 )
 def load_naf_codes(context, postgres: PostgresResource):
-    
+    """
+    chargement des données csv dans une table SQL PostgreSQL
+
+    :params context: contexte de dagster pour pouvoir enregisrer des logs
+    :params postgres: ressource pour se connecter à la base de données PostgreSQL
+
+    :return: table SQL créée dans la base de données PostgreSQL nommée "code_naf"
+    """
     # Lecture du fichier CSV
     dataframe_load = pd.read_csv(CODE_NAF_STAGING_PATH,
                                  sep=";",
                                  header=0)
     
     # Chargement dans la bdd
-
     with postgres.get_connection() as conn:
         cursor = conn.cursor()
 
