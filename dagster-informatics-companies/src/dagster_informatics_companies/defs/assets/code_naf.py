@@ -27,13 +27,20 @@ def get_naf_codes(context):
     :return: fichier xls stockant les codes nafs et leurs intitulés
     """
     
-    context.log.info("Début du téléchargement des codes NAF")
+    try:
+        context.log.info("Début du téléchargement des codes NAF")
 
-    nafs_codes = requests.get(
-        URL_GET_EXCEL_NAF_CODES
-    )
-    with open(CODE_NAF_RAW_PATH, "wb") as output_file:
-        output_file.write(nafs_codes.content)
+        nafs_codes = requests.get(
+            URL_GET_EXCEL_NAF_CODES
+        )
+        with open(CODE_NAF_RAW_PATH, "wb") as output_file:
+            output_file.write(nafs_codes.content)
+
+        return nafs_codes
+    except Exception as e:
+        context.log.error("Erreur au niveau de la requête pour les codes naf : "+str(e))
+        raise ValueError("Erreur au niveau de la requête pour l'Excel du code NAF : "+str(e))
+    
 
 ####################-
 # Partie Transform

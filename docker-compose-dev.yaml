@@ -1,5 +1,5 @@
-services:
 
+services:
   postgres:
     image: postgres:15
     container_name: postgres
@@ -16,6 +16,8 @@ services:
     build:
       context: ./dagster-informatics-companies
     container_name: dagster
+    env_file:
+      - .env
     depends_on:
       - postgres
     environment:

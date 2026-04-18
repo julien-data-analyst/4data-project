@@ -10,6 +10,7 @@ dependencies = [
     "numpy>=2.2.6",
     "pandas>=2.3.3",
     "psycopg2-binary>=2.9.11",
+    "pytest>=9.0.3",
     "requests>=2.33.1",
     "xlrd>=2.0.2",
 ]
@@ -36,4 +37,6 @@ registry_modules = [
     "dagster_informatics_companies.components.*",
 ]
 
+[tool.pytest.ini_options]
+pythonpath = ["src"]
 
