@@ -32,6 +32,17 @@ docker compose -f docker-compose-dev.yaml up
 
 ```
 
+Si vous voulez lancer les tests unitaires de **pytest**, il faudra vous connecter au terminal du conteneur *dagster*.
+Après que vous serez connecté au conteneur dans le terminal, vous pouvez lancer les commandes ci-dessous :
+
+```sh
+# Conduire à l'emplacement des tests unitaires
+cd ./tests/units/
+
+# Lancer les tests unitaires
+uv run pytest
+```
+
 Pour les branches, veuillez respecter la syntaxe suivante :
 - feat/fix/docs:fct (exemple : git branch "feat:create-assets-metiers")
 

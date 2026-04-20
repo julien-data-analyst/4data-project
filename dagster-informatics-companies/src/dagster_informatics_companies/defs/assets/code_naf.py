@@ -33,10 +33,12 @@ def get_naf_codes(context):
         nafs_codes = requests.get(
             URL_GET_EXCEL_NAF_CODES
         )
+        contenu = nafs_codes.content
         with open(CODE_NAF_RAW_PATH, "wb") as output_file:
-            output_file.write(nafs_codes.content)
+            output_file.write(contenu)
 
-        return nafs_codes
+        return CODE_NAF_RAW_PATH
+    
     except Exception as e:
         context.log.error("Erreur au niveau de la requête pour les codes naf : "+str(e))
         raise ValueError("Erreur au niveau de la requête pour l'Excel du code NAF : "+str(e))
@@ -124,6 +126,8 @@ def clean_naf_codes(context):
                               sep=";",
                               header=True,
                               index=False)
+    
+    return CODE_NAF_STAGING_PATH
 
 
 ####################-
