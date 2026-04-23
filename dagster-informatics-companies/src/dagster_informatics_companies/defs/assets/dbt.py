@@ -13,6 +13,8 @@ class CustomizedDagsterDbtTranslator(DagsterDbtTranslator):
 
         if resource_type == 'source' and name=="code_naf":
             return AssetKey("load_naf_codes")
+        elif resource_type == 'source' and name=="companies":
+            return AssetKey("extract_load_companies")
         else:
             return super().get_asset_key(dbt_resource_props)
     

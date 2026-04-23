@@ -4,3 +4,6 @@ URL_GET_EXCEL_NAF_CODES = "https://www.insee.fr/fr/statistiques/fichier/2120875/
 CODE_NAF_RAW_PATH = "/app/src/dagster_informatics_companies/data/raw/naf_code.xls"
 CODE_NAF_STAGING_PATH = "/app/src/dagster_informatics_companies/data/staging/naf_code.csv"
 
+# Pour l'API entreprise
+API_ENTREPRISES_URL = "https://recherche-entreprises.api.gouv.fr/search"
+

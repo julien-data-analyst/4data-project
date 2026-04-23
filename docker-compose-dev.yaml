@@ -2,7 +2,7 @@
 services:
   postgres:
     image: postgres:15
-    container_name: postgres
+    container_name: postgres_informatics_companies
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
