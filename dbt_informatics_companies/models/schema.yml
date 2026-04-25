@@ -28,3 +28,7 @@ sources:
 
       - name: companies
 
+      - name: region
+
+      - name: departments
+      

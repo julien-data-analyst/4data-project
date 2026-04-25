@@ -65,3 +65,7 @@ LISTE_CODE_NAF_VALIDE = ['01.11Z', '01.12Z', '01.13Z', '01.14Z', '01.15Z', '01.1
                            '93.12Z', '93.13Z', '93.19Z', '93.21Z', '93.29Z', '94.11Z', '94.12Z', '94.20Z', '94.91Z', '94.92Z', '94.99Z', '95.11Z', '95.12Z', 
                            '95.21Z', '95.22Z', '95.23Z', '95.24Z', '95.25Z', '95.29Z', 
                            '96.01A', '96.01B', '96.02A', '96.02B', '96.03Z', '96.04Z', '96.09Z', '97.00Z', '98.10Z', '98.20Z', '99.00Z']
+
+# Pour les départements et régions
+DEPS_SCRIPT = "/app/src/dagster_informatics_companies/data/load/French-zip-code-3.0.0-SQL/sql/departments.sql"
+REGIONS_SCRIPT = "/app/src/dagster_informatics_companies/data/load/French-zip-code-3.0.0-SQL/sql/regions.sql"
