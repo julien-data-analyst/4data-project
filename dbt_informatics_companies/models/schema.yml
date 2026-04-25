@@ -1,5 +1,5 @@
 sources:
-  - name: codes_nafs
+  - name: codes_nafs_companies
     database: annual_french_informatics_companies  
     schema: public
     tables:
