@@ -4,4 +4,27 @@ sources:
     schema: public
     tables:
       - name: code_naf
+        columns:
+          - name: subclasses_codes
+            tests:
+              - not_null
+              - unique
+          
+          - name: subclasses_title
+            tests:
+              - not_null
+
+          - name: classe_title
+            tests:
+              - not_null
+          
+          - name: classes_codes
+            tests:
+              - not_null
+            
+          - name: section_title
+            tests:
+              - not_null
+
       - name: companies
+
