@@ -43,6 +43,22 @@ cd ./tests/units/
 uv run pytest
 ```
 
+Si vous voulez lancer les tests dbt pour les modèles, il faudra aussi être connecté au terminal du conteneur *dagster*
+et lancer les commandes suivantes :
+
+```sh
+
+# Activer l'environnement virtuel pour lancer dbt
+source /app/.venv/bin/activate
+
+# Se diriger vers dbt
+cd /dbt/
+
+# Lancer la commande test pour dbt
+dbt test
+
+```
+
 Pour les branches, veuillez respecter la syntaxe suivante :
 - feat/fix/docs:fct (exemple : git branch "feat:create-assets-metiers")
 
