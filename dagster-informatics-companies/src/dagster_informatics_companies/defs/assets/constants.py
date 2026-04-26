@@ -69,3 +69,8 @@ LISTE_CODE_NAF_VALIDE = ['01.11Z', '01.12Z', '01.13Z', '01.14Z', '01.15Z', '01.1
 # Pour les départements et régions
 DEPS_SCRIPT = "/app/src/dagster_informatics_companies/data/load/French-zip-code-3.0.0-SQL/sql/departments.sql"
 REGIONS_SCRIPT = "/app/src/dagster_informatics_companies/data/load/French-zip-code-3.0.0-SQL/sql/regions.sql"
+
+# Pour les visuels graphiques
+TEMPORAL_GRAPH = "/app/src/dagster_informatics_companies/data/reporting/creation_entreprise_temporelle.png"
+BAR_REGION_GRAPH = "/app/src/dagster_informatics_companies/data/reporting/region_entreprise.png"
+CARTE_GRAPH = "/app/src/dagster_informatics_companies/data/reporting/carte_entreprise_informatique.html"

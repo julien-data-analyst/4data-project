@@ -1,15 +1,10 @@
-# 4DATA : création d'un flux de données pour les entreprises informatiques françaises
+# 4DATA : création d'un flux de données pour les entreprises informatiques françaises 
 ## Auteur : Julien RENOULT - Tom JOUSSET - Béatrice BEAVOGUI
 ## Promo : SUPINFO Programme Grande École 4ème année
 ### Spécialité : Ingénierie Data
-### Date : 10/04/2026
+### Date : 10/04/2026 - 26/04/2026
 
-Vous trouverez ci-joint le projet dans la création d'une pipeline de données pour capter les informations des entreprises informatiques françaises.
-On utilisera différentes technologies notamment :
-- [dagster](https://dagster.io/)
-- [dbt](https://www.getdbt.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Power BI](https://www.microsoft.com/fr-fr/power-platform/products/power-bi)
+# Utilisation de la pipeline 
 
 Pour lancer la phase de dev de ce projet sous Docker, veuillez exécuter la commande ci-dessous :
 ```sh
@@ -59,6 +54,9 @@ dbt test
 
 ```
 
+Si vous voules lancer les pipelines, veuillez lancer les jobs suivants :
+- 
+
 Pour les branches, veuillez respecter la syntaxe suivante :
 - feat/fix/docs:fct (exemple : git branch "feat:create-assets-metiers")
 
@@ -74,10 +72,28 @@ Pour nos différentes pipelines, nous utiliserons trois principales sources de d
 - Un fichier [Excel](https://www.insee.fr/fr/information/2120875) sur les intitulés des codes NAF (Nomenclature d'Activités Françaises) afin d'identifier les entreprises dans le domaine informatique
 - Deux script [SQL](https://www.data.gouv.fr/datasets/regions-departements-villes-et-villages-de-france-et-doutre-mer) permettant la création des tables départements et régions
 
-# Partie ETL pour les codes NAF 
+# Technologies utilisées (Installation/Déploiement)
+
+Vous trouverez ci-joint le projet dans la création d'une pipeline de données pour capter les informations des entreprises informatiques françaises.
+On utilisera différentes technologies notamment :
+- [dagster](https://dagster.io/)
+- [dbt](https://www.getdbt.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Power BI](https://www.microsoft.com/fr-fr/power-platform/products/power-bi)
+
+# Conception de l'orchestration
+
+## ETL pour les codes NAF 
 Pour ce qui est des codes NAF, il a été décider pour simplifier le travail et avec l'exécution qu'une fois par an de ce processus de créer un ETL.
 Cette ETL permet d'aller chercher le contenu d'un fichier Excel pour capturer tous les intitulés des codes NAFs, leurs intitulés, les intitulés des classes et des sections.
 Ca permettra notamment de se simplifier la tâche dans le filtrage des activités de type informatique.
 
+## ELT pour les entreprises
+
+## Table SD2C
+
+## Tables de dimensions et de faits
+
+# Reporting et tableau de bord
 
 À compléter plus tards avec explication de comment ça va se passer

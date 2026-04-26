@@ -15,6 +15,8 @@ mart_company_asset = AssetSelection.assets("dim_companies_scd2", "fact_companies
 code_naf_informatics = AssetSelection.groups("naf_codes")
 dim_code_naf_informatics = AssetSelection.assets("dim_codes_naf_informatics")
 
+# Les assets pour le reporting 
+reporting_assets = AssetSelection.groups("reporting")
 
 ###########################################
 # POUR LES ENTREPRISES 
@@ -46,6 +48,16 @@ mart_company_job = define_asset_job(
     selection=mart_company_asset
 )
 
+##############################################
+##############################################
+
+##############################################
+# POUR LE REPORTING 
+##############################################
+reporting_job = define_asset_job(
+    name="reporting_job",
+    selection=reporting_assets
+)
 ##############################################
 ##############################################
 
