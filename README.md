@@ -54,8 +54,14 @@ dbt test
 
 ```
 
-Si vous voules lancer les pipelines, veuillez lancer les jobs suivants :
-- 
+Si vous voules lancer les pipelines, veuillez lancer les jobs suivants et dans l'ordre indiqué :
+- api_company_job
+- clean_company_job
+- code_naf_job
+- region_deps_job
+- scd2_company_job
+- mart_company_job
+- reporting_job
 
 Pour les branches, veuillez respecter la syntaxe suivante :
 - feat/fix/docs:fct (exemple : git branch "feat:create-assets-metiers")
