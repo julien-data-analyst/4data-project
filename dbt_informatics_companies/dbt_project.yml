@@ -35,7 +35,7 @@ models:
       +materialized: table
 
       fact_companies:
-        +tags: ['companies']
+        +tags: ['companies', 'mart_company']
 
       dim_codes_naf_informatics:
         +tags: ['codes_naf']
@@ -44,13 +44,13 @@ models:
         +tags: ['region_deps']
 
       dim_companies_scd2:
-        +tags: ['companies']
+        +tags: ['scd2', 'mart_company']
     
     staging:
         +materialized: table
 
         companies_cleaned:
-          +tags: ['companies']
+          +tags: ['companies', 'staging_company']
 
     
 

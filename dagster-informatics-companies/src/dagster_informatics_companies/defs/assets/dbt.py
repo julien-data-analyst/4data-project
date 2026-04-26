@@ -47,11 +47,24 @@ def dbt_region_deps(context: AssetExecutionContext, dbt: DbtCliResource):
 @dbt_assets(
     manifest=dbt_project.manifest_path,
     dagster_dbt_translator=CustomizedDagsterDbtTranslator(),
-    select="tag:companies"
+    select="tag:staging_company"
 )
 def dbt_companies(context: AssetExecutionContext, dbt: DbtCliResource):
 
     yield from dbt.cli(
-        ["build", "--select", "tag:companies"],
+        ["build", "--select", "tag:staging_company"],
+        context=context
+    ).stream()
+
+# Pour la table scd2
+@dbt_assets(
+    manifest=dbt_project.manifest_path,
+    dagster_dbt_translator=CustomizedDagsterDbtTranslator(),
+    select="tag:mart_company"
+)
+def dbt_marts(context: AssetExecutionContext, dbt: DbtCliResource):
+
+    yield from dbt.cli(
+        ["build", "--select", "tag:mart_company"],
         context=context
     ).stream()

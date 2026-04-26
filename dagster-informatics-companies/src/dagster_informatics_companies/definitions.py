@@ -2,8 +2,8 @@ from dagster import Definitions, load_assets_from_modules, in_process_executor
 from .defs.assets import code_naf, dbt, companies, region_deps, table_scd2
 import os 
 from .defs.resources import PostgresResource, dbt_resource
-from .defs.jobs import company_job, code_naf_job, region_deps_job
-from .defs.schedules import companies_dayli, naf_codes_annual, region_deps_annual
+from .defs.jobs import api_company_job, code_naf_job, region_deps_job, clean_company_job, scd2_company_job, mart_company_job
+from .defs.schedules import api_companies_dayli, clean_companies_dayli, scd2_companies_dayli, mart_companies_dayli, naf_codes_annual, region_deps_annual
 
 # Chargement des assets
 code_naf_assets = load_assets_from_modules([code_naf])
@@ -13,10 +13,10 @@ region_deps_assets = load_assets_from_modules([region_deps])
 scd2_assets = load_assets_from_modules([table_scd2])
 
 # Définition des jobs
-all_jobs = [company_job, code_naf_job, region_deps_job]
+all_jobs = [api_company_job, clean_company_job, scd2_company_job, mart_company_job, code_naf_job, region_deps_job]
 
 # Définition des planifications
-all_schedules = [companies_dayli, naf_codes_annual, region_deps_annual]
+all_schedules = [api_companies_dayli, clean_companies_dayli, scd2_companies_dayli, mart_companies_dayli, naf_codes_annual, region_deps_annual]
 
 # Définition des sensors
 # 
