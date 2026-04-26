@@ -1,7 +1,7 @@
 
 {{
 config(
-    materialized='table',
+    materialized='table'
 )
 }}
 SELECT DISTINCT
@@ -27,6 +27,7 @@ SELECT DISTINCT
         longitude,
         latest_financial_year,
         ca AS dernier_ca,
-        resultat_net AS dernier_resultat_net
+        resultat_net AS dernier_resultat_net,
+        ingested_at
 
 FROM {{ ref('companies_cleaned') }}

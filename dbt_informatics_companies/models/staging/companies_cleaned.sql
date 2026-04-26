@@ -1,5 +1,5 @@
 {{ config(
-    materialized='table',
+    materialized='table'
 ) }}
 
 /* Nettoyage général des données de l'entreprise */
@@ -64,7 +64,6 @@ finances_not_null AS (
     FROM cleaned_companies
     WHERE finances IS NOT NULL
     AND jsonb_typeof(finances) = 'object'
-
 ),
 
 latest_financial_year AS (
@@ -96,4 +95,4 @@ SELECT
     f.ca,
     f.resultat_net
 FROM cleaned_companies c
-LEFT JOIN financials_extracted f USING (siren)
+LEFT JOIN financials_extracted f ON f.siren=c.siren

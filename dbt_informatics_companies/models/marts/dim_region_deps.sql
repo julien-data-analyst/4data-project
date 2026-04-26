@@ -1,7 +1,7 @@
 
 {{
 config(
-    materialized='table',
+    materialized='table'
 )
 }}
 SELECT reg.code AS code_region, reg.name AS region_name, 

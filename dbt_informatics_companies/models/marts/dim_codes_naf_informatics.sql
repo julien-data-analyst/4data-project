@@ -1,7 +1,7 @@
 
 {{
 config(
-    materialized='table',
+    materialized='table'
 )
 }}
 SELECT subclasses_codes, subclasses_title, classe_title, classes_codes, section_title

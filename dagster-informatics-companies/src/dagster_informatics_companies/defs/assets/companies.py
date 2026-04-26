@@ -1,10 +1,11 @@
 import requests
-from dagster import asset
-from .constants import API_ENTREPRISES_URL, LISTE_CODE_NAF_VALIDE, CHEMIN_TEMPORAIRE_ENTREPRISE
+from dagster import asset, AssetExecutionContext
+from .constants import API_ENTREPRISES_URL, LISTE_CODE_NAF_VALIDE
 import os
 import pandas as pd
 import time
 from ..resources import PostgresResource
+from ..partitions import categorie_partitions
 from io import StringIO
 import json
 
@@ -12,9 +13,10 @@ import json
 # Voir filtrage temporel 
 @asset(
     deps=["load_naf_codes"],
-    group_name="companies"
+    group_name="companies",
+    partitions_def=categorie_partitions
 )
-def extract_load_companies(context, postgres: PostgresResource):
+def extract_load_companies(context: AssetExecutionContext, postgres: PostgresResource):
     """
     Extraction et chargement direct des données JSON de l'API de recherche d'entreprise.
     Objectif : récupérer les 10 000 plus grosses entreprises par catégorie (PME, ETI, GE)
@@ -24,6 +26,9 @@ def extract_load_companies(context, postgres: PostgresResource):
 
     :return: table SQL créée dans la base de données PostgreSQL nommée "companies"
     """
+
+    # Récupérer la partition correspondante (ETI, PME, GE)
+    categorie = context.partition_key
 
     # Récupérer la liste des codes NAF informatiques depuis la base
     with postgres.get_connection() as conn:
@@ -40,8 +45,7 @@ def extract_load_companies(context, postgres: PostgresResource):
     with postgres.get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute("""
-            Drop table if exists companies;
-            Create table companies (
+            Create table if not exists companies (
                 siren Text,
                 nom_raison_sociale Text,
                 activite_principale Text,
@@ -65,6 +69,10 @@ def extract_load_companies(context, postgres: PostgresResource):
                 ingested_at Timestamp DEFAULT NOW()
             );
         """)
+        cursor.execute("""
+        DELETE FROM companies
+        WHERE categorie_entreprise = %s
+        """, (categorie,))
         conn.commit()
 
     #########################################
@@ -90,21 +98,20 @@ def extract_load_companies(context, postgres: PostgresResource):
     # Récupérer toutes les entreprises
     all_companies = []
     request_count = 0
-    for categorie_entreprise in ["PME", "ETI", "GE"]:
         
-        # Première requête pour obtenir le nombre total de pages
-        params = {
+    # Première requête pour obtenir le nombre total de pages
+    params = {
                 'activite_principale': liste_params_valide_string,
                 'est_entrepreneur_individuel': 'false',
                 'sort_by_size' : 'true',
-                'categorie_entreprise' : categorie_entreprise, # Chaque catégorie entreprise, on récupère les plus grosses (10 000)
+                'categorie_entreprise' : categorie, # Chaque catégorie entreprise, on récupère les plus grosses (10 000)
                 "etat_administratif" : "A", # Actif
                 'per_page': 25,
                 'page': 1
             }
         
         
-        context.log.info(f"""Exécution de la première requête avec cette url : {API_ENTREPRISES_URL}?
+    context.log.info(f"""Exécution de la première requête avec cette url : {API_ENTREPRISES_URL}?
                         activite_principale={liste_params_valide_string}&
                         est_entrepreneur_individuel={params["est_entrepreneur_individuel"]}&
                         sort_by_size={params["sort_by_size"]}&
@@ -114,27 +121,26 @@ def extract_load_companies(context, postgres: PostgresResource):
                         page={params["page"]}""")
 
 
-        # Parourir chaque code et récupérer ses éléments
-        if request_count % 7 == 0:
-            time.sleep(5)
-        response = requests.get(API_ENTREPRISES_URL, params=params)
-        request_count += 1
+    # Parourir chaque code et récupérer ses éléments
+    if request_count % 7 == 0:
+        time.sleep(5)
+    response = requests.get(API_ENTREPRISES_URL, params=params)
+    request_count += 1
         
-        # Dans le cas de la première requête
-        if response.status_code != 200:
-            context.log.error(f"Erreur API pour {naf_code} et {categorie_entreprise}: {response.status_code}")
-            raise ValueError("Erreur de la première requête de collecte de données")
+    # Dans le cas de la première requête
+    if response.status_code != 200:
+        context.log.error(f"Erreur API pour {naf_code} et {categorie}: {response.status_code}")
+        raise ValueError("Erreur de la première requête de collecte de données")
         
-        # Conversion et calcul du nombre de pages à parcourir
-        data = response.json()
-        total_pages = data.get('total_pages', 1)
-        process_page(data, all_companies)
+    # Conversion et calcul du nombre de pages à parcourir
+    data = response.json()
+    total_pages = data.get('total_pages', 1)
+    process_page(data, all_companies)
 
-        for page in range(2, total_pages + 1):
-            
-            
+    for page in range(2, total_pages + 1):
+                
             if request_count % 7 == 0:
-                context.log.info(f"Pause de trois secondes après sept requêtes page {categorie_entreprise} {page}/{total_pages}.")
+                context.log.info(f"Pause de trois secondes après sept requêtes page {categorie} {page}/{total_pages}.")
                 time.sleep(3) # sleep pour eviter spam 7 req
                 
             params['page'] = page
@@ -145,14 +151,11 @@ def extract_load_companies(context, postgres: PostgresResource):
                     data = response.json()
                     process_page(data, all_companies)
             elif response.status_code==429:
-                context.log.warning(f"Pause de trois secondes, trop de requêtes pour l'API {categorie_entreprise} {page}/{total_pages}")
+                context.log.warning(f"Pause de trois secondes, trop de requêtes pour l'API {categorie} {page}/{total_pages}")
                 time.sleep(3)
                 page -= 1 # Revenir en arrière pour l'exécuter
             else:
-                    context.log.error(f"Erreur page {page} pour {liste_params_valide_string} {categorie_entreprise} : {response.status_code}")
-            
-            # Pause entre codes NAF
-            # time.sleep(1)
+                    context.log.error(f"Erreur page {page} pour {liste_params_valide_string} {categorie} : {response.status_code}")
     
     ############################################
     # 3EME PARTIE : CHARGEMENT DANS LA BDD
@@ -161,7 +164,7 @@ def extract_load_companies(context, postgres: PostgresResource):
     # Charger en base
     if all_companies:
         df = pd.DataFrame(all_companies)
-        df.to_csv(CHEMIN_TEMPORAIRE_ENTREPRISE,index=False)
+        # df.to_csv(CHEMIN_TEMPORAIRE_ENTREPRISE,index=False)
 
         # Remplacer les [NON DIFFUSIBLES]
         with postgres.get_connection() as conn:
@@ -207,6 +210,14 @@ def extract_load_companies(context, postgres: PostgresResource):
 
 
 def process_page(data, companies_list):
+    """
+    Permet d'extraire les données d'un JSON donné pour l'entreprise.
+
+    :params data: réponse de la requête API pour la collecte de données
+    :params companies_list: liste des entreprises qu'on va utiliser pour ajouter les données de chaque entreprise
+
+    :return: Ajout des données dans "companies_list"
+    """
     for result in data.get('results', []):
 
         # Gérer le cas si les informations se trouve dans unite_legale (possible si le filtrage nous envoie la donnée)
@@ -243,5 +254,4 @@ def process_page(data, companies_list):
             'latitude': siege.get("latitude"),
             'longitude': siege.get("longitude")
         }
-        # Ajouter dernier CA, Résultat net, date fermeture, les dates de modifications
         companies_list.append(company)

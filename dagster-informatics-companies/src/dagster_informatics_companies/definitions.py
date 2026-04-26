@@ -1,5 +1,5 @@
 from dagster import Definitions, load_assets_from_modules, in_process_executor
-from .defs.assets import code_naf, dbt, companies, region_deps
+from .defs.assets import code_naf, dbt, companies, region_deps, table_scd2
 import os 
 from .defs.resources import PostgresResource, dbt_resource
 from .defs.jobs import company_job, code_naf_job, region_deps_job
@@ -10,6 +10,7 @@ code_naf_assets = load_assets_from_modules([code_naf])
 dbt_assets = load_assets_from_modules([dbt])
 companies_assets = load_assets_from_modules([companies])
 region_deps_assets = load_assets_from_modules([region_deps])
+scd2_assets = load_assets_from_modules([table_scd2])
 
 # Définition des jobs
 all_jobs = [company_job, code_naf_job, region_deps_job]
@@ -22,7 +23,7 @@ all_schedules = [companies_dayli, naf_codes_annual, region_deps_annual]
 
 # Définitions de nos assets, schedules, etc
 defs = Definitions(
-    assets=[*code_naf_assets, *dbt_assets, *companies_assets, *region_deps_assets],
+    assets=[*code_naf_assets, *dbt_assets, *companies_assets, *region_deps_assets, *scd2_assets],
     executor=in_process_executor,
     resources={
         "postgres": PostgresResource(

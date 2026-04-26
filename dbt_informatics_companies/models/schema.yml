@@ -75,3 +75,5 @@ sources:
           - name: region_code
             tests:
               - not_null
+
+      - name: companies_scd2
