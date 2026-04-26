@@ -15,6 +15,8 @@ class CustomizedDagsterDbtTranslator(DagsterDbtTranslator):
             return AssetKey("load_naf_codes")
         elif resource_type == 'source' and name=="companies":
             return AssetKey("extract_load_companies")
+        elif resource_type == 'source' and name=="departments":
+            return AssetKey("load_deps_fr")
         else:
             return super().get_asset_key(dbt_resource_props)
     

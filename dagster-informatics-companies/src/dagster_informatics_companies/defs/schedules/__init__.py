@@ -1,13 +1,20 @@
 from dagster import ScheduleDefinition
-from ..jobs import trip_update_job, weekly_update_job
+from ..jobs import company_job, region_deps_job, code_naf_job
 
-trip_update_schedule = ScheduleDefinition(
-    job=trip_update_job,
-    cron_schedule="0 0 5 * *", # Tous les 5 du mois à minuit
+# Exécution annuelle pour les codes (début d'année)
+naf_codes_annual = ScheduleDefinition(
+    job=code_naf_job,
+    cron_schedule="0 0 5 * *", # Tous les ans
 )
 
-# Pour spécifiquement le weekly
-weekly_update_schedule = ScheduleDefinition(
-    job=weekly_update_job,
-    cron_schedule="0 0 * * 1", # Tous les lundi à minuit
+# # Exécution annuelle pour les régions départements (début d'année)
+region_deps_annual = ScheduleDefinition(
+    job=region_deps_job,
+    cron_schedule="0 0 5 * *", # Tous les ans
+)
+
+# Exécution journalière
+companies_dayli = ScheduleDefinition(
+    job=company_job,
+    cron_schedule="0 0 5 * *", # Tous les jours
 )
