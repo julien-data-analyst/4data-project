@@ -32,7 +32,7 @@ class CustomizedDagsterDbtTranslator(DagsterDbtTranslator):
     select="tag:codes_naf"
 )
 def dbt_code_naf(context: AssetExecutionContext, dbt: DbtCliResource):
-    yield from dbt.cli(["build", "--select", "tag:codes_naf"], context=context).stream()
+    yield from dbt.cli(["build"], context=context).stream()
 
 # Pour les régions et départements
 @dbt_assets(
@@ -41,7 +41,7 @@ def dbt_code_naf(context: AssetExecutionContext, dbt: DbtCliResource):
     select="tag:region_deps"
 )
 def dbt_region_deps(context: AssetExecutionContext, dbt: DbtCliResource):
-    yield from dbt.cli(["build", "--select", "tag:region_deps"], context=context).stream()
+    yield from dbt.cli(["build"], context=context).stream()
 
 # Pour les entreprises
 @dbt_assets(
@@ -52,7 +52,7 @@ def dbt_region_deps(context: AssetExecutionContext, dbt: DbtCliResource):
 def dbt_companies(context: AssetExecutionContext, dbt: DbtCliResource):
 
     yield from dbt.cli(
-        ["build", "--select", "tag:staging_company"],
+        ["build"],
         context=context
     ).stream()
 
@@ -65,6 +65,6 @@ def dbt_companies(context: AssetExecutionContext, dbt: DbtCliResource):
 def dbt_marts(context: AssetExecutionContext, dbt: DbtCliResource):
 
     yield from dbt.cli(
-        ["build", "--select", "tag:mart_company"],
+        ["build"],
         context=context
     ).stream()

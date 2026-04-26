@@ -43,7 +43,8 @@ def load_region_fr(context, postgres: PostgresResource):
 def load_deps_fr(context, postgres: PostgresResource):
     """
     création de la table "departments" avec insertion des données via un script SQL
-    dont la source peut se trouver via le lien ci-dessou:
+    dont la source peut se trouver via le lien ci-dessous :
+    https://www.data.gouv.fr/datasets/regions-departements-villes-et-villages-de-france-et-doutre-mer
 
 
     :params context: contexte de dagster pour pouvoir enregisrer des logs

@@ -14,7 +14,8 @@ import json
 @asset(
     deps=["load_naf_codes"],
     group_name="companies",
-    partitions_def=categorie_partitions
+    partitions_def=categorie_partitions,
+    kinds={"Postgres", "Python"}
 )
 def extract_load_companies(context: AssetExecutionContext, postgres: PostgresResource):
     """

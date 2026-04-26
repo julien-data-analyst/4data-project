@@ -69,9 +69,10 @@ Avec cette syntaxe, cela nous permettra de bien comprendre ce qui a été dével
 
 # Sources de données pour les pipelines
 
-Pour nos différentes pipelines, nous utiliserons deux principales sources de données :
+Pour nos différentes pipelines, nous utiliserons trois principales sources de données :
 - API sur l'annuaire des entreprises françaises mise en place par le gouvernement [data.gouv.fr](https://recherche-entreprises.api.gouv.fr/docs/)
 - Un fichier [Excel](https://www.insee.fr/fr/information/2120875) sur les intitulés des codes NAF (Nomenclature d'Activités Françaises) afin d'identifier les entreprises dans le domaine informatique
+- Deux script [SQL](https://www.data.gouv.fr/datasets/regions-departements-villes-et-villages-de-france-et-doutre-mer) permettant la création des tables départements et régions
 
 # Partie ETL pour les codes NAF 
 Pour ce qui est des codes NAF, il a été décider pour simplifier le travail et avec l'exécution qu'une fois par an de ce processus de créer un ETL.

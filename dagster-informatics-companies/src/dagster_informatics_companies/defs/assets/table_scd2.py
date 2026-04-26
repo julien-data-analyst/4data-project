@@ -5,9 +5,18 @@ from ..partitions import categorie_partitions
 @asset(
     deps=["companies_cleaned"],
     group_name="scd2",
-    partitions_def=categorie_partitions
+    partitions_def=categorie_partitions,
+    kinds={"Postgres"}
 )
 def load_companies_scd2(context: AssetExecutionContext, postgres: PostgresResource):
+    """
+    Gestion de la table SCD2 pour identifier les changements dans les données récoltées par l'API
+
+    :params context: contexte de dagster pour pouvoir enregisrer des logs
+    :params postgres: ressource pour se connecter à la base de données PostgreSQL
+
+    :return: table SQL créée dans la base de données PostgreSQL nommée "companies_scd2"
+    """
     categorie = context.partition_key
 
     with postgres.get_connection() as conn:
