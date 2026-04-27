@@ -150,3 +150,23 @@ def test_contenu_regions(context_postgresql):
 
     except Exception as e:
         raise AssertionError("Erreur 'load_deps_fr' pour le test du contenu dans la bdd : ", e)
+
+# Ajouter jobs
+def test_region_deps_job():
+    """
+    Vérifie que le job s'exécute correctement
+    """
+    result = dg.materialize(
+        assets=[load_deps_fr, load_region_fr],
+        resources={
+            "postgres": PostgresResource(
+            host=os.getenv("HOST_DB"),
+            port=os.getenv("PORT_DB"),
+            user=os.getenv("USER_DB"),
+            password=os.getenv("PASSWORD_DB"),
+            database=os.getenv("NAME_DB"),
+            )
+        }
+    )
+
+    assert result.success

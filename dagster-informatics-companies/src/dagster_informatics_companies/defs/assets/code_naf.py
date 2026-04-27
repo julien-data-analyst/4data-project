@@ -33,6 +33,9 @@ def get_naf_codes(context):
         nafs_codes = requests.get(
             URL_GET_EXCEL_NAF_CODES
         )
+
+        if nafs_codes.status_code != 200 :
+            raise ValueError("Erreur lors de l'envoie de la requête pour récupérer Excel : "+str(e))
         contenu = nafs_codes.content
         with open(CODE_NAF_RAW_PATH, "wb") as output_file:
             output_file.write(contenu)
@@ -94,8 +97,8 @@ def clean_naf_codes(context):
     subclass_naf.columns = ["excel_line", "subclasses_codes", "subclasses_title"]
 
     # Clean the strings
-    subclass_naf["subclasses_codes"].str.strip()
-    subclass_naf["subclasses_title"].str.strip().str.lower()
+    subclass_naf["subclasses_codes"] = subclass_naf["subclasses_codes"].str.strip()
+    subclass_naf["subclasses_title"] = subclass_naf["subclasses_title"].str.strip().str.lower()
 
     # Utility function for the apply method
     def find_classes_and_section(row):

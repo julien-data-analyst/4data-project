@@ -7,6 +7,9 @@ from ..partitions import categorie_partitions
 CODE_NAF_SELECTOR = "code_naf"
 
 class CustomizedDagsterDbtTranslator(DagsterDbtTranslator):
+    """
+    Cette classe nous permet de gérer les dépendances de nos dbt notamment si on doit les lier avec des assets Dagster
+    """
     def get_asset_key(self, dbt_resource_props):
         resource_type = dbt_resource_props["resource_type"]
         name = dbt_resource_props["name"]
@@ -24,7 +27,10 @@ class CustomizedDagsterDbtTranslator(DagsterDbtTranslator):
     
     def get_group_name(self, dbt_resource_props):
         return dbt_resource_props["fqn"][1]
-    
+
+# Chaque asset que vous trouverez ci-dessous permets de mieux gérer selon le tag les différents éléments dbt à exécuter.
+# Cela permet de séparer les responsabilités entre les différents modèles dbt
+
 # Pour les codes nafs
 @dbt_assets(
     manifest=dbt_project.manifest_path, # Indicates where is placed the manifest
@@ -43,7 +49,7 @@ def dbt_code_naf(context: AssetExecutionContext, dbt: DbtCliResource):
 def dbt_region_deps(context: AssetExecutionContext, dbt: DbtCliResource):
     yield from dbt.cli(["build"], context=context).stream()
 
-# Pour les entreprises
+# Pour les transformations en entreprises
 @dbt_assets(
     manifest=dbt_project.manifest_path,
     dagster_dbt_translator=CustomizedDagsterDbtTranslator(),
@@ -56,7 +62,7 @@ def dbt_companies(context: AssetExecutionContext, dbt: DbtCliResource):
         context=context
     ).stream()
 
-# Pour la table scd2
+# Pour les tables analytics companies/scd2
 @dbt_assets(
     manifest=dbt_project.manifest_path,
     dagster_dbt_translator=CustomizedDagsterDbtTranslator(),
