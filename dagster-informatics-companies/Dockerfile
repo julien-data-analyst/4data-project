@@ -28,6 +28,9 @@ RUN uv sync
 # Copier le code Dagster
 COPY dagster-informatics-companies/src/ ./src/
 
+# Copier le code pour les tests
+COPY dagster-informatics-companies/tests/ ./tests/
+
 # Copier dbt (important)
 COPY dbt_informatics_companies/ /dbt
 
