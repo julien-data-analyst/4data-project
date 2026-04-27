@@ -64,7 +64,7 @@ Si vous voules lancer les pipelines, veuillez lancer les jobs suivants et dans l
 - reporting_job
 
 Si vous obtenez un échec et que vous constater dans les logs qu'il y a cette information :
-[DagsterApiServer] Run execution process for d76cba3b-c72f-4b98-b724-afa49d6815c7 was terminated by signal 7 (SIGBUS).
+\[DagsterApiServer\] Run execution process for d76cba3b-c72f-4b98-b724-afa49d6815c7 was terminated by signal 7 (SIGBUS).
 
 Alors, c'est juste le Dagster qui s'est arrêté et faudra relancer le job concerné.
 
