@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_informatics_companies
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: annual_french_informatics_companies
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  dagster-code:
+    build:
+      context: .
+      dockerfile: dagster-informatics-companies/Dockerfile
+    container_name: dagster_code
+    restart: always
+    environment:
+      DAGSTER_HOME: /app
+      DBT_PROFILES_DIR: /dbt
+    command: >
+      uv run dagster api grpc
+      -h 0.0.0.0
+      -p 4000
+      -m dagster_informatics_companies
+    ports:
+      - "4000:4000"
+
+  dagster-webserver:
+    build:
+      context: .
+      dockerfile: dagster-informatics-companies/Dockerfile
+    container_name: dagster_webserver
+    restart: always
+    depends_on:
+      - postgres
+      - dagster-code
+    environment:
+      DAGSTER_HOME: /app
+    ports:
+      - "3000:3000"
+    command: >
+      uv run dagster-webserver
+      -h 0.0.0.0
+      -p 3000
+      -w workspace.yaml
+
+  dagster-daemon:
+    build:
+      context: .
+      dockerfile: dagster-informatics-companies/Dockerfile
+    container_name: dagster_daemon
+    restart: always
+    depends_on:
+      - postgres
+      - dagster-code
+    environment:
+      DAGSTER_HOME: /app
+    command: >
+      uv run dagster-daemon run
+
+volumes:
+  postgres_data:

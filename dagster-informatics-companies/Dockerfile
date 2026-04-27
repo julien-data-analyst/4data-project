@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copier les fichiers de dépendances
-COPY pyproject.toml uv.lock ./
+COPY dagster-informatics-companies/pyproject.toml dagster-informatics-companies/uv.lock ./
 
 # Installer uv (rapide)
 RUN pip install uv
@@ -26,10 +26,10 @@ RUN pip install uv
 RUN uv sync
 
 # Copier le code Dagster
-COPY src/ ./src/
+COPY dagster-informatics-companies/src/ ./src/
 
-# Copier ton projet dbt (important)
-# COPY ./dbt_informatics_companies/ /dbt
+# Copier dbt (important)
+COPY dbt_informatics_companies/ /dbt
 
 # Variable dbt
 ENV DBT_PROFILES_DIR=/dbt

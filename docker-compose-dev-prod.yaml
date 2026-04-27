@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:15
@@ -13,8 +12,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   dagster:
-    context: .
-    dockerfile: dagster-informatics-companies/Dockerfile
+    build:
+      context: .
+      dockerfile: dagster-informatics-companies/Dockerfile
     container_name: dagster
     env_file:
       - .env
@@ -25,16 +25,10 @@ services:
       DAGSTER_POSTGRES_USER: postgres
       DAGSTER_POSTGRES_PASSWORD: postgres
       DAGSTER_POSTGRES_DB: annual_french_informatics_companies
-      DAGSTER_HOME: /app/
+      DAGSTER_HOME: /app
       DBT_PROFILES_DIR: /dbt
     ports:
       - "3000:3000"
-    volumes:
-      # code dagster (hot reload)
-      - ./dagster-informatics-companies:/app
-
-      # projet dbt (TRÈS IMPORTANT)
-      - ./dbt_informatics_companies:/dbt
 
     command: uv run dg dev -h 0.0.0.0 -p 3000
 
