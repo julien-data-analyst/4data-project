@@ -755,6 +755,7 @@ source = { editable = "." }
 dependencies = [
     { name = "dagster" },
     { name = "dagster-dbt" },
+    { name = "dbt-core" },
     { name = "dbt-postgres" },
     { name = "matplotlib" },
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -779,6 +780,7 @@ dev = [
 requires-dist = [
     { name = "dagster", specifier = "==1.13.0" },
     { name = "dagster-dbt", specifier = ">=0.29.0" },
+    { name = "dbt-core", specifier = ">=1.11.8" },
     { name = "dbt-postgres", specifier = ">=1.10.0" },
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "numpy", specifier = ">=2.2.6" },

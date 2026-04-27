@@ -143,6 +143,12 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+schedules/
+history/
+.telemetry/
+storage/
+.logs_queue/
+.nux/
 
 # Spyder project settings
 .spyderproject

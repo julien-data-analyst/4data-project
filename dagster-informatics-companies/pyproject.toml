@@ -5,6 +5,7 @@ version = "0.1.0"
 dependencies = [
     "dagster==1.13.0",
     "dagster-dbt>=0.29.0",
+    "dbt-core>=1.11.8",
     "dbt-postgres>=1.10.0",
     "matplotlib>=3.10.8",
     "numpy>=2.2.6",

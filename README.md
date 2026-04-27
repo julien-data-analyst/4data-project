@@ -55,13 +55,18 @@ dbt test
 ```
 
 Si vous voules lancer les pipelines, veuillez lancer les jobs suivants et dans l'ordre indiqué :
-- api_company_job
-- clean_company_job
 - code_naf_job
 - region_deps_job
+- api_company_job
+- clean_company_job
 - scd2_company_job
 - mart_company_job
 - reporting_job
+
+Si vous obtenez un échec et que vous constater dans les logs qu'il y a cette information :
+[DagsterApiServer] Run execution process for d76cba3b-c72f-4b98-b724-afa49d6815c7 was terminated by signal 7 (SIGBUS).
+
+Alors, c'est juste le Dagster qui s'est arrêté et faudra relancer le job concerné.
 
 Pour les branches, veuillez respecter la syntaxe suivante :
 - feat/fix/docs:fct (exemple : git branch "feat:create-assets-metiers")
