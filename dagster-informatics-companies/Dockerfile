@@ -28,6 +28,9 @@ RUN uv sync
 # Copier le code Dagster
 COPY dagster-informatics-companies/src/ ./src/
 
+# Copier la config dagster.yaml 
+COPY dagster-informatics-companies/dagster.yaml ./dagster.yaml
+
 # Copier le code pour les tests
 COPY dagster-informatics-companies/tests/ ./tests/
 

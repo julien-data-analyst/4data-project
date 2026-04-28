@@ -99,7 +99,7 @@ def companies_by_region(context: AssetExecutionContext, postgres: PostgresResour
             fill="blue",
             stat="identity")
         + labs(
-            title="Top 10 des régions en nombre d'entreprises informatiques",
+            title="Nombre d'entreprises informatiques par région",
             x="Région",
             y="Nombre d'entreprises"
         )

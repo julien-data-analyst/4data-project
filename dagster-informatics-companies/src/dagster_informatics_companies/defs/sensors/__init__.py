@@ -1,16 +1,26 @@
-from dagster import sensor, RunRequest, SkipReason, AssetKey, AssetExecutionContext
-from dagster import DagsterEventType
+from dagster import sensor, RunRequest, SkipReason, AssetKey, \
+    AssetExecutionContext, EventRecordsFilter, DagsterEventType
 
 @sensor(asset_selection=[
-    "companies_time_series"
+    "companies_time_series",
+    "companies_by_region",
+    "companies_map"
 ])
 def fact_companies_sensor(context: AssetExecutionContext):
     """
-    
+
+    Permet l'actualisation des graphiques de reportings (carte interactive, graphique temporel, graphique région).
+
+    :params context: contexte de dagster pour pouvoir enregisrer des logs, récupérer des métadonnées
+
+    :return: création des trois fichiers reportings trouvable dans le dossier ~/data/reporting/...
+
     """
     events = context.instance.get_event_records(
-        event_type=DagsterEventType.ASSET_MATERIALIZATION,
-        asset_key=AssetKey("fact_companies"),
+       EventRecordsFilter(
+        event_type=DagsterEventType.ASSET_MATERIALIZATION, 
+        asset_key=AssetKey("fact_companies")
+        ),
         limit=1
     )
 
