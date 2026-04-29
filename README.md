@@ -112,12 +112,13 @@ docker exec -it dagster ../bin/sh
 
 ```
 
+Veuillez exécuter les différents jobs indiqués avant afin de pouvoir faire tous les tests que ça soit unitaire ou intégration.
 Après que vous serez connecté au conteneur dans le terminal, vous pouvez lancer les commandes ci-dessous :
 
 ```sh
 
 # Conduire à l'emplacement des tests unitaires
-cd /app/tests/units/
+cd /app/tests/
 
 # Lancer les tests unitaires / intégrations
 uv run pytest
@@ -130,10 +131,10 @@ et lancer les commandes suivantes :
 ```sh
 
 # Activer l'environnement virtuel pour lancer dbt
-source /app/.venv/bin/activate
+. /app/.venv/bin/activate
 
 # Se diriger vers dbt
-cd /dbt/
+cd /dbt_informatics_companies/
 
 # Lancer la commande test pour dbt
 dbt test
@@ -229,6 +230,8 @@ Ces tables analytiques nous permettent de proposer plusieurs axes d'analyses qu'
 
 ## Reporting automatisé
 
-En plus du rapport Power BI, on a créé via un *Sensor* la création d'une carte intéractive HTML et de deux graphiques. Leurs objectifs est d'offrir une visualisation globale des entreprises sans passer par le Power BI où lui va apporter des filtrages afin d'offrir beaucoup plus d'axe d'analyses.
+En plus du rapport Power BI, on a créé via un *Sensor* la création d'une carte intéractive HTML et de deux graphiques. 
+Leurs objectifs est d'offrir une visualisation globale des entreprises sans passer par le Power BI où lui va apporter des filtrages 
+afin d'offrir beaucoup plus d'axes d'analyses.
 
 ![Partie reporting sous Dagster](imgs/reporting_auto.png)

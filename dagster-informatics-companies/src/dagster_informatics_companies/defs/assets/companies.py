@@ -202,9 +202,7 @@ def extract_load_companies(context: AssetExecutionContext, postgres: PostgresRes
                     from stdin with csv
                 """,
                 file=buffer
-            ) # siren X,nom_raison_sociale X,activite_principale X,categorie_entreprise X,date_creation X,date_fermeture X,date_mise_a_jour X,
-            # date_mise_a_jour_insee X,date_mise_a_jour_rne X,nb_etablissements X,nb_etablissements_ouverts X,
-             # est_service_public X,finances X,etat_administratif X,nature_juridique X,tranche_effectif_salarie X,adresse,code_postal X,commune X,latitude X,longitude X
+            )
             conn.commit()
     else:
         context.log.warning("Aucune entreprise trouvé")

@@ -25,18 +25,6 @@ RUN pip install uv
 # Installer les dépendances Python
 RUN uv sync
 
-# Installer pytest pour les tests
-RUN python -m pip install pytest
-# Installer pandas pour les tests
-RUN python -m pip install pandas
-# Installer dbt-postgres pour les tests
-RUN python -m pip install dbt-postgres
-# Installer dagster pour les tests
-RUN python -m pip install dagster
-# Installer dagster-dbt pour les tests
-RUN python -m pip install dagster_dbt
-
-
 # Copier le code Dagster
 COPY dagster-informatics-companies/src/ ./src/
 

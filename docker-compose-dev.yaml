@@ -27,7 +27,7 @@ services:
       DAGSTER_POSTGRES_PASSWORD: postgres
       DAGSTER_POSTGRES_DB: annual_french_informatics_companies
       DAGSTER_HOME: /app/
-      DBT_PROFILES_DIR: /dbt
+      DBT_PROFILES_DIR: /dbt_informatics_companies
     ports:
       - "3000:3000"
     volumes:
@@ -35,7 +35,7 @@ services:
       - ./dagster-informatics-companies:/app
 
       # projet dbt (TRÈS IMPORTANT)
-      - ./dbt_informatics_companies:/dbt
+      - ./dbt_informatics_companies:/dbt_informatics_companies
 
     command: uv run dg dev -h 0.0.0.0 -p 3000
 

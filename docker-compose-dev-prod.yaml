@@ -26,7 +26,7 @@ services:
       DAGSTER_POSTGRES_PASSWORD: postgres
       DAGSTER_POSTGRES_DB: annual_french_informatics_companies
       DAGSTER_HOME: /app
-      DBT_PROFILES_DIR: /dbt
+      DBT_PROFILES_DIR: /dbt_informatics_companies
     ports:
       - "3000:3000"
 

@@ -33,7 +33,7 @@ WITH cleaned_companies AS (
             WHEN '51' THEN '2000 à 4999'
             WHEN '52' THEN '5000 à 9999'
             WHEN '53' THEN '10000+'
-            ELSE NULL
+            ELSE 'Non renseigné'
         END AS tranche_effectif_salarie,
         TRIM(adresse) AS adresse,
         code_postal,

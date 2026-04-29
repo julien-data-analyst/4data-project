@@ -1,34 +1,42 @@
 sources:
   - name: codes_nafs_companies
+    description: "Source de tables SQL définies afin de faire nos différents modèles"
     database: annual_french_informatics_companies  
     schema: public
     tables:
       - name: code_naf
+        description: "Table source SQL pour les codes NAFs"
         columns:
           - name: subclasses_codes
+            description: "Le code la sous-classe de la nomenclature d'activité française (Ex : 62.3Z)"
             tests:
               - not_null
               - unique
           
           - name: subclasses_title
+            description: "L'intitulé de la sous-classe de la nomenclature d'activité française"
             tests:
               - not_null
 
           - name: classe_title
+            description: "L'intitulé de la classe de la nomenclature"
             tests:
               - not_null
           
           - name: classes_codes
+            description: "Le code NAF de la classe (Ex : 62)"
             tests:
               - not_null
             
           - name: section_title
+            description: "Le titre de la section d'activité"
             tests:
               - not_null
 
       - name: companies
 
       - name: regions
+        description: "La table SQL pour les régions françaises"
         columns:
           - name: id
             tests:
@@ -51,6 +59,7 @@ sources:
               - not_null
 
       - name: departments
+        description: "La table SQL pour les départements français"
         columns:
           - name: id
             tests:
@@ -77,3 +86,38 @@ sources:
               - not_null
 
       - name: companies_scd2
+
+models:
+    - name: companies_cleaned
+      description: "Modèle DBT permettant de nettoyer les données collectés de l'API dans la table 'companies'"
+      columns:
+      - name: siren
+        tests:
+          - not_null
+          - unique
+      
+      - name: nom_raison_sociale
+        tests:
+          - not_null
+      
+      - name: tranche_effectif_salarie
+        tests:
+          - not_null
+          - accepted_values: 
+              values: ['Non renseigné', '0', '1 à 2', '3 à 5',
+                    '6 à 9', '10 à 19', '20 à 49', '50 à 99',
+                    '100 à 199', '200 à 249', '250 à 499', 
+                    '500 à 999', '1000 à 1999', '2000 à 4999',
+                    '5000 à 9999', '10000+']
+      
+    - name: dim_codes_naf_informatics
+      description: "Table SQL analytique afin d'observer les intitulés des codes NAFs informatiques"
+      columns:
+        - name: classes_codes
+          tests:
+            - accepted_values: 
+              values: ['62', '63']
+    
+    - name: dim_codes_naf_informatics
+      description: "Table SQL analytique afin d'observer les intitulés des codes NAFs informatiques"
+      
