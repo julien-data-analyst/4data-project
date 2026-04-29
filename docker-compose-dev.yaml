@@ -13,8 +13,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   dagster:
-    context: .
-    dockerfile: dagster-informatics-companies/Dockerfile
+    build: 
+      context: .
+      dockerfile: dagster-informatics-companies/Dockerfile
     container_name: dagster
     env_file:
       - .env

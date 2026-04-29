@@ -25,6 +25,18 @@ RUN pip install uv
 # Installer les dépendances Python
 RUN uv sync
 
+# Installer pytest pour les tests
+RUN python -m pip install pytest
+# Installer pandas pour les tests
+RUN python -m pip install pandas
+# Installer dbt-postgres pour les tests
+RUN python -m pip install dbt-postgres
+# Installer dagster pour les tests
+RUN python -m pip install dagster
+# Installer dagster-dbt pour les tests
+RUN python -m pip install dagster_dbt
+
+
 # Copier le code Dagster
 COPY dagster-informatics-companies/src/ ./src/
 
@@ -35,7 +47,7 @@ COPY dagster-informatics-companies/dagster.yaml ./dagster.yaml
 COPY dagster-informatics-companies/tests/ ./tests/
 
 # Copier dbt (important)
-COPY dbt_informatics_companies/ /dbt
+COPY dbt_informatics_companies/ /dbt_informatics_companies
 
 # Variable dbt
 ENV DBT_PROFILES_DIR=/dbt

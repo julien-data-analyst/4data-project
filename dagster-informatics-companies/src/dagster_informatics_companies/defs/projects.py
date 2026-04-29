@@ -5,7 +5,7 @@ from dagster_dbt import DbtProject,DbtCliResource
 
 # Indiquer le chemin pour retrouver le fichier manifest.json à partir de l'emplacement du fichier
 dbt_project = DbtProject(
-  project_dir=Path(__file__).joinpath("../../../../../", "dbt").resolve(),
+  project_dir=Path(__file__).joinpath("../../../../../", "dbt_informatics_companies").resolve(),
 )
 
 # Actualisation automatique pour indiquer de nouveaux modèles créés ou si les requêtes SQL ont été modifiées
