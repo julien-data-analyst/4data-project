@@ -72,6 +72,8 @@ docker compose -f docker-compose-dev.yaml up
 
 ```
 
+**Attention, la partie prod ne marche pas, privilégier les autres au-dessus si vous voulez regarder les pipelines.**
+
 Si vous voulez lancer en phase de prod, nous allons utiliser le dernier docker compose qui est **docker-compose-prod.yaml**.
 Cela le lancera sans interface et sans les tests où vous pourrez le lancer seulement et ne pas interagir avec.
 

@@ -37,6 +37,9 @@ COPY dagster-informatics-companies/tests/ ./tests/
 # Copier dbt (important)
 COPY dbt_informatics_companies/ /dbt_informatics_companies
 
+# Copier workspac.yaml (important pour la prod)
+COPY dagster-informatics-companies/workspace.yaml ./workspace.yaml
+
 # Variable dbt
 ENV DBT_PROFILES_DIR=/dbt
 
