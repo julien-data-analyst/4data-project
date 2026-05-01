@@ -1,5 +1,5 @@
 # 4DATA : création d'un flux de données pour les entreprises informatiques françaises 
-## Auteur : Julien RENOULT - Tom JOUSSET - Béatrice BEAVOGUI
+## Auteur : Julien RENOULT - Théo MONEL - Béatrice BEAVOGUI
 ## Promo : SUPINFO Programme Grande École 4ème année
 ### Spécialité : Ingénierie Data
 ### Date : 10/04/2026 - 29/04/2026
