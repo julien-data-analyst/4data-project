@@ -116,8 +116,4 @@ models:
         - name: classes_codes
           tests:
             - accepted_values: 
-              values: ['62', '63']
-    
-    - name: dim_codes_naf_informatics
-      description: "Table SQL analytique afin d'observer les intitulés des codes NAFs informatiques"
-      
+                values: ['62', '63']
