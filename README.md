@@ -2,7 +2,7 @@
 ## Auteur : Julien RENOULT - Théo MONEL - Béatrice BEAVOGUI
 ## Promo : SUPINFO Programme Grande École 4ème année
 ### Spécialité : Ingénierie Data
-### Date : 10/04/2026 - 29/04/2026
+### Date : 10/04/2026 - 03/05/2026
 
 # Introduction
 
@@ -72,7 +72,7 @@ docker compose -f docker-compose-dev.yaml up
 
 ```
 
-**Attention, la partie prod ne marche pas, privilégier les autres au-dessus si vous voulez regarder les pipelines.**
+**Attention, la partie prod ne marche pas, privilégier les autres au-dessus si vous voulez tester les pipelines.**
 
 Si vous voulez lancer en phase de prod, nous allons utiliser le dernier docker compose qui est **docker-compose-prod.yaml**.
 Cela le lancera sans interface et sans les tests où vous pourrez le lancer seulement et ne pas interagir avec.
@@ -104,7 +104,14 @@ vous pouvez lancer les jobs (via l'onglet jobs) suivants et dans l'ordre indiqu�
 - mart_company_job
 - reporting_job
 
-En allant sur chaque job, cliquer sur le bouton *Materialize all*, cela lancera tous les assets concernés par ce job.
+En allant sur chaque job, cliquer sur le bouton *Materialize all*, cela lancera tous les assets concernés par le job.
+
+Si vous voulez récupérer les résultats de reporting_job, si vous n'êtes pas dans le *docker-compose dev*, alors vous devez exécuter cette commande :
+
+```sh
+docker cp dagster:/app/src/dagster_informatics_companies/data/reporting/ ./dagster-informatics-companies/src/dagster_informatics_companies/data/
+
+```
 
 Si vous voulez lancer les tests unitaires de **pytest**, il faudra vous connecter au terminal du conteneur *dagster* via la commande suivante :
 
